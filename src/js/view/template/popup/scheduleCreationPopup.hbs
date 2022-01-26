@@ -1,76 +1,35 @@
-<div class="{{CSS_PREFIX}}popup">
-    <div class="{{CSS_PREFIX}}popup-container">
-        <div class="{{CSS_PREFIX}}popup-section {{CSS_PREFIX}}dropdown {{CSS_PREFIX}}close {{CSS_PREFIX}}section-calendar{{#unless calendars.length}} {{CSS_PREFIX}}hide{{/unless}}">
-            <button class="{{CSS_PREFIX}}button {{CSS_PREFIX}}dropdown-button {{CSS_PREFIX}}popup-section-item">
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}calendar-dot" style="background-color: {{selectedCal.bgColor}}"></span>
-                <span id="{{CSS_PREFIX}}schedule-calendar" class="{{CSS_PREFIX}}content">{{selectedCal.name}}</span>
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}dropdown-arrow"></span>
-            </button>
-            <ul class="{{CSS_PREFIX}}dropdown-menu" style="z-index: {{zIndex}}">
-                {{#each calendars}}
-                    <li class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}dropdown-menu-item" data-calendar-id="{{id}}">
-                        <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}calendar-dot" style="background-color: {{bgColor}}"></span>
-                        <span class="{{CSS_PREFIX}}content">{{name}}</span>
-                    </li>
-                {{/each}}
-            </ul>
-        </div>
-        <div class="{{CSS_PREFIX}}popup-section">
-            <div class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}section-title">
-            <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-title"></span>
-                <input id="{{CSS_PREFIX}}schedule-title" class="{{CSS_PREFIX}}content" placeholder="{{titlePlaceholder-tmpl}}" value="{{title}}">
-            </div>
-            <button id="{{CSS_PREFIX}}schedule-private" class="{{CSS_PREFIX}}button {{CSS_PREFIX}}section-private{{#unless isPrivate}} {{CSS_PREFIX}}public{{/unless}}">
-            <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-private"></span>
-            </button>
-        </div>
-        <div class="{{CSS_PREFIX}}popup-section">
-            <div class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}section-location">
-            <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-location"></span>
-                <input id="{{CSS_PREFIX}}schedule-location" class="{{CSS_PREFIX}}content" placeholder="{{locationPlaceholder-tmpl}}" value="{{location}}">
-            </div>
-        </div>
-        <div class="{{CSS_PREFIX}}popup-section">
-            <div class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}section-start-date">
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-date"></span>
-                <input id="{{CSS_PREFIX}}schedule-start-date" class="{{CSS_PREFIX}}content" placeholder="{{startDatePlaceholder-tmpl}}">
-                <div id="{{CSS_PREFIX}}startpicker-container" style="margin-left: -1px; position: relative"></div>
-            </div>
-            <span class="{{CSS_PREFIX}}section-date-dash">-</span>
-            <div class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}section-end-date">
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-date"></span>
-                <input id="{{CSS_PREFIX}}schedule-end-date" class="{{CSS_PREFIX}}content" placeholder="{{endDatePlaceholder-tmpl}}">
-                <div id="{{CSS_PREFIX}}endpicker-container" style="margin-left: -1px; position: relative"></div>
-            </div>
-            <div class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}section-allday">
-                <input id="{{CSS_PREFIX}}schedule-allday" type="checkbox" class="{{CSS_PREFIX}}checkbox-square"{{#if isAllDay}} checked{{/if}}>
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-checkbox"></span>
-                <span class="{{CSS_PREFIX}}content">{{{popupIsAllDay-tmpl}}}</span>
-            </div>
-        </div>
-        <div class="{{CSS_PREFIX}}popup-section {{CSS_PREFIX}}dropdown {{CSS_PREFIX}}close {{CSS_PREFIX}}section-state">
-            <button class="{{CSS_PREFIX}}button {{CSS_PREFIX}}dropdown-button {{CSS_PREFIX}}popup-section-item">
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-state"></span>
-                <span id="{{CSS_PREFIX}}schedule-state" class="{{CSS_PREFIX}}content">{{#if state}}{{state}}{{else}}{{{popupStateBusy-tmpl}}}{{/if}}</span>
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}dropdown-arrow"></span>
-            </button>
-            <ul class="{{CSS_PREFIX}}dropdown-menu" style="z-index: {{zIndex}}">
-                <li class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}dropdown-menu-item">
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}none"></span>
-                <span class="{{CSS_PREFIX}}content">{{{popupStateBusy-tmpl}}}</span>
-                </li>
-                <li class="{{CSS_PREFIX}}popup-section-item {{CSS_PREFIX}}dropdown-menu-item">
-                <span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}none"></span>
-                <span class="{{CSS_PREFIX}}content">{{{popupStateFree-tmpl}}}</span>
-                </li>
-            </ul>
-        </div>
-        <button class="{{CSS_PREFIX}}button {{CSS_PREFIX}}popup-close"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-close"></span></button>
-        <div class="{{CSS_PREFIX}}section-button-save"><button class="{{CSS_PREFIX}}button {{CSS_PREFIX}}confirm {{CSS_PREFIX}}popup-save"><span>{{#if isEditMode}}{{{popupUpdate-tmpl}}}{{else}}{{{popupSave-tmpl}}}{{/if}}</span></button></div>
+<div class="{{CSS_PREFIX}}popup {{CSS_PREFIX}}popup-detail">
+  <div class="{{CSS_PREFIX}}popup-container">
+    <div class="{{CSS_PREFIX}}popup-section {{CSS_PREFIX}}section-header">
+      <div>
+        <span class="{{CSS_PREFIX}}schedule-private {{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-private"></span>
+        <span class="{{CSS_PREFIX}}schedule-title">{{schedule.title}}</span>
+      </div>
+      <div class="{{CSS_PREFIX}}popup-detail-date {{CSS_PREFIX}}content">{{{popupDetailDate-tmpl schedule.isAllDay schedule.start schedule.end}}}</div>
     </div>
-    <div id="{{CSS_PREFIX}}popup-arrow" class="{{CSS_PREFIX}}popup-arrow {{CSS_PREFIX}}arrow-bottom">
-        <div class="{{CSS_PREFIX}}popup-arrow-border">
-            <div class="{{CSS_PREFIX}}popup-arrow-fill"></div>
-        </div>
+    <div class="{{CSS_PREFIX}}section-detail">
+        {{#if schedule.location}}<div class="{{CSS_PREFIX}}popup-detail-item"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-location-b"></span><span class="{{CSS_PREFIX}}content">{{{popupDetailLocation-tmpl schedule}}}</span></div>{{/if}}
+        {{#if schedule.recurrenceRule}}<div class="{{CSS_PREFIX}}popup-detail-item"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-repeat-b"></span><span class="{{CSS_PREFIX}}content">{{{popupDetailRepeat-tmpl schedule}}}</span></div>{{/if}}
+        {{#if schedule.attendees}}<div class="{{CSS_PREFIX}}popup-detail-item {{CSS_PREFIX}}popup-detail-item-indent"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-user-b"></span><span class="{{CSS_PREFIX}}content">{{{popupDetailUser-tmpl schedule}}}</span></div>{{/if}}
+        {{#if schedule.state}}<div class="{{CSS_PREFIX}}popup-detail-item"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-state-b"></span><span class="{{CSS_PREFIX}}content">{{{popupDetailState-tmpl schedule}}}</span></div>{{/if}}
+        {{#if calendar}}
+        <div class="{{CSS_PREFIX}}popup-detail-item"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}calendar-dot" style="background-color: {{schedule.bgColor}}"></span><span class="{{CSS_PREFIX}}content">{{calendar.name}}</span></div>
+        {{/if}}
+        {{#if schedule.body}}<div class="{{CSS_PREFIX}}popup-detail-item {{CSS_PREFIX}}popup-detail-item-separate"><span class="{{CSS_PREFIX}}content">{{{popupDetailBody-tmpl schedule}}}</span></div>{{/if}}
     </div>
+    {{#if schedule.isReadOnly}}
+    {{else}}
+    <div class="{{CSS_PREFIX}}section-button">
+      <button class="{{CSS_PREFIX}}popup-edit"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-edit"></span><span class="{{CSS_PREFIX}}content">{{{popupEdit-tmpl}}}</span></button>
+      <div class="{{CSS_PREFIX}}popup-vertical-line"></div>
+      <button class="{{CSS_PREFIX}}popup-delete"><span class="{{CSS_PREFIX}}icon {{CSS_PREFIX}}ic-delete"></span><span class="{{CSS_PREFIX}}content">{{{popupDelete-tmpl}}}</span></button>
+    </div>
+    {{/if}}
+  </div>
+  <div class="{{CSS_PREFIX}}popup-top-line" style="background-color: {{schedule.bgColor}}"></div>
+  {{!-- <div id="{{CSS_PREFIX}}popup-arrow" class="{{CSS_PREFIX}}popup-arrow {{CSS_PREFIX}}arrow-left">
+    <div class="{{CSS_PREFIX}}popup-arrow-border">
+        <div class="{{CSS_PREFIX}}popup-arrow-fill"></div>
+    </div>
+  </div> --}}
 </div>
